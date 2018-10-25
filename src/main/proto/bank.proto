@@ -4,6 +4,12 @@ package xyz.itshark.conf.talk;
 
 option java_multiple_files = true;
 
+enum Status {
+    DEFAULT = 0;
+    SUCCESS = 1;
+    FAIL = 2 ;
+}
+
 message Transfer {
     int32 id = 1;
     int32 account = 2;
@@ -26,10 +32,25 @@ message Notification {
     string message = 3;
 }
 
+message BankTransfer {
+    int32 trans_id = 1;
+    Account from_account = 2;
+    Account to_account = 3;
+    string message = 4;
+    double amount = 5;
+}
+
+message BankTransferResponse {
+    int32 trans_id = 1;
+    Status status = 2;
+    double amount = 3;
+}
 service Bank {
     rpc transfer(Transfer) returns (TransferResponse);
 
     rpc notificatoin(Account) returns (stream Notification);
+
+    rpc bank2bank (stream BankTransfer) returns (stream BankTransferResponse);
 }
 
 

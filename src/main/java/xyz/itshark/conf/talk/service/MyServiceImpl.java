@@ -3,7 +3,6 @@ package xyz.itshark.conf.talk.service;
 import io.grpc.stub.StreamObserver;
 import xyz.itshark.conf.talk.*;
 
-import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 
 public class MyServiceImpl extends BankGrpc.BankImplBase {
 
@@ -36,4 +35,34 @@ public class MyServiceImpl extends BankGrpc.BankImplBase {
      }
      responseObserver.onCompleted();
     }
+
+    @Override
+    public StreamObserver<BankTransfer> bank2bank(
+            StreamObserver<BankTransferResponse> responseObserver) {
+        return new StreamObserver<BankTransfer>() {
+
+            @Override
+            public void onNext(BankTransfer bankTransfer) {
+                responseObserver.onNext(BankTransferResponse.newBuilder()
+                        .setTransId(bankTransfer.getTransId())
+                        .setAmount(bankTransfer.getAmount())
+                        .setStatus(Math.random() > 0.5? Status.SUCCESS : Status.FAIL)
+                        .build());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+
+            }
+
+            @Override
+            public void onCompleted() {
+                responseObserver.onCompleted();
+            }
+        };
+    }
+
+
+
+
 }
