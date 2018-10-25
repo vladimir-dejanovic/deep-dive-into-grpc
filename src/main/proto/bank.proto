@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package xyz.itshark.conf.talk;
+
+option java_multiple_files = true;
+
+message Transfer {
+    int32 id = 1;
+    int32 account = 2;
+    double amount = 3;
+    string message = 4;
+}
+
+
+message TransferResponse {
+    int32 id = 1;
+    string message = 2;
+}
+
+service Bank {
+    rpc transfer(Transfer) returns (TransferResponse);
+}
+
