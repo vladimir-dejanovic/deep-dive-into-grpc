@@ -11,13 +11,33 @@ message Transfer {
     string message = 4;
 }
 
-
 message TransferResponse {
     int32 id = 1;
     string message = 2;
 }
 
+message Account {
+    int32 account = 1;
+}
+
+message Notification {
+    Account account = 1;
+    double amount = 2;
+    string message = 3;
+}
+
 service Bank {
     rpc transfer(Transfer) returns (TransferResponse);
+
+    rpc notificatoin(Account) returns (stream Notification);
 }
+
+
+
+
+
+
+
+
+
 
